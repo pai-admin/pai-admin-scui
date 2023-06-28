@@ -9,8 +9,9 @@ export default {
 	maxSize: 10,						//最大文件大小 默认10MB
 	parseData: function (res) {
 		return {
-			fileName: res.fileName,
-			src: res.filePath,
+			name: res.name,
+			path: res.path,
+			size: res.size
 		}
 	},
 	apiObjFile: API.common.upload,	//附件上传请求API对象

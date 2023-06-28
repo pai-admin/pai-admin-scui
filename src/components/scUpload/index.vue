@@ -206,7 +206,7 @@
 					})
 					return false
 				}
-				file.url = this.$CONFIG.ASSET_URL + res.src
+				file.url = this.$CONFIG.ASSET_URL + res.path
 				this.value = file.url
 			},
 			error(err){

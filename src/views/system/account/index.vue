@@ -18,7 +18,7 @@
 				</div>
 				<div class="right-panel">
 					<div class="right-panel-search">
-						<el-input v-model="search.name" placeholder="登录账号" clearable style="width: 200px;"></el-input>
+						<el-input v-model="search.username" placeholder="登录账号" clearable style="width: 200px;"></el-input>
 						<el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
 					</div>
 				</div>
@@ -26,20 +26,26 @@
 			<el-main class="nopadding">
 				<scTable ref="table" :apiObj="apiObj" @selection-change="selectionChange" stripe remoteSort remoteFilter>
 					<el-table-column type="selection" width="50"></el-table-column>
-					<el-table-column label="ID" prop="account_id" width="100"></el-table-column>
-					<el-table-column label="头像" width="100">
+					<el-table-column label="ID" prop="accountId" width="100"></el-table-column>
+					<el-table-column label="账号" prop="username"></el-table-column>
+					<el-table-column label="部门" prop="deptName"></el-table-column>
+					<el-table-column label="头像">
 						<template #default="scope">
 							<el-avatar :src="scope.row.avatar" size="small"></el-avatar>
 						</template>
 					</el-table-column>
-					<el-table-column label="姓名" prop="realname"></el-table-column>
-					<el-table-column label="账号" prop="username"></el-table-column>
-					<el-table-column label="角色" prop="roles">
+					<el-table-column label="角色" prop="roleLists">
 						<template #default="scope">
-							{{scope.row.roles.map(item=>item.role_name).toString()}}
+							{{scope.row.roles.map(item=>item.roleName).toString()}}
 						</template>
 					</el-table-column>
-					<el-table-column label="创建时间" prop="create_time"></el-table-column>
+					<el-table-column label="状态" prop="status" width="150">
+						<template #default="scope">
+							<el-tag v-if="scope.row.status===1" type="success">启用</el-tag>
+							<el-tag v-if="scope.row.status===0" type="danger">停用</el-tag>
+						</template>
+					</el-table-column>
+					<el-table-column label="创建时间" prop="createTime"></el-table-column>
 					<el-table-column label="操作" fixed="right" align="right" width="160">
 						<template #default="scope">
 							<el-button-group>
@@ -79,15 +85,15 @@ export default {
 			groupFilterText: '',
 			group: [],
 			groupsProps: {
-				value: "dept_id",
-				label: "dept_name",
+				value: "deptId",
+				label: "deptName",
 				emitPath: false,
 				checkStrictly: true
 			},
 			apiObj: this.$API.system.account.list,
 			selection: [],
 			search: {
-				name: null
+				username: null
 			}
 		}
 	},
@@ -124,7 +130,7 @@ export default {
 		//删除
 		async table_del(row){
 			const loading = this.$loading();
-			var res = await this.$API.setting.account.del({account_id: row.account_id});
+			var res = await this.$API.system.account.del({ids: row.accountId});
 			this.$refs.table.refresh()
 			loading.close();
 			this.$message.success(res.msg)
@@ -135,7 +141,7 @@ export default {
 				type: 'warning'
 			}).then(async () => {
 				const loading = this.$loading();
-				const res = await this.$API.setting.account.del({account_id: this.selection.map(item => item.account_id).toString()});
+				const res = await this.$API.system.account.del({ids: this.selection.map(item => item.accountId).toString()});
 				this.$refs.table.refresh()
 				loading.close();
 				this.$message.success(res.msg)
@@ -148,10 +154,9 @@ export default {
 		//加载树数据
 		async getGroup(){
 			this.showGrouploading = true;
-			const res = await this.$API.system.dept.option();
+			const res = await this.$API.system.dept.list();
 			this.showGrouploading = false;
 			this.group = this.$TOOL.makeTreeData(res.data, 0, "deptId");
-			this.group.unshift({'deptId': null, 'dept_name': '所有部门'})
 		},
 		//树过滤
 		groupFilterNode(value, data){
@@ -161,7 +166,7 @@ export default {
 		//树点击事件
 		groupClick(data){
 			var params = {
-				dept_id: data.dept_id
+				deptId: data.deptId
 			}
 			this.$refs.table.reload(params)
 		},

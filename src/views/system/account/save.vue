@@ -7,19 +7,19 @@
 			<el-form-item label="账号" prop="username">
 				<el-input v-model="form.username" placeholder="用于登录系统" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="姓名" prop="realname">
-				<el-input v-model="form.realname" placeholder="请输入完整的真实姓名" clearable></el-input>
-			</el-form-item>
 			<el-form-item label="登录密码" prop="password">
 				<el-input type="password" v-model="form.password" clearable show-password></el-input>
 			</el-form-item>
-			<el-form-item label="所属部门" prop="dept_id">
-				<el-cascader ref="dept" v-model="form.dept_id" :options="depts" :props="deptsProps" clearable style="width: 100%;"></el-cascader>
+			<el-form-item label="所属部门" prop="deptId">
+				<el-cascader ref="dept" v-model="form.deptId" :options="depts" :props="deptsProps" clearable style="width: 100%;"></el-cascader>
 			</el-form-item>
 			<el-form-item label="所属角色" prop="roles">
 				<el-select v-model="form.roles" multiple filterable style="width: 100%">
-					<el-option v-for="item in groups" :key="item.role_id" :label="item.role_name" :value="item.role_id"/>
+					<el-option v-for="item in groups" :key="item.roleId" :label="item.roleName" :value="item.roleId"/>
 				</el-select>
+			</el-form-item>
+			<el-form-item label="是否有效" prop="status">
+				<el-switch v-model="form.status" :active-value="1" :inactive-value="0"></el-switch>
 			</el-form-item>
 		</el-form>
 		<template #footer>
@@ -44,23 +44,20 @@ export default {
 			isSaveing: false,
 			//表单数据
 			form: {
-				account_id:null,
+				accountId:null,
 				username: "",
 				avatar: "",
-				realname: "",
 				password: "",
-				dept_id: 0,
-				roles: []
+				deptId: 0,
+				roles: [],
+				status: 1
 			},
 			//验证规则
 			rules: {
 				username: [
 					{required: true, message: '请输入登录账号'}
 				],
-				realname: [
-					{required: true, message: '请输入真实姓名'}
-				],
-				dept_id: [
+				deptId: [
 					{required: true, message: '请选择所属部门'}
 				],
 				roles: [
@@ -71,8 +68,8 @@ export default {
 			groups: [],
 			depts: [],
 			deptsProps: {
-				value: "dept_id",
-				label: "dept_name",
+				value: "deptId",
+				label: "deptName",
 				checkStrictly: true
 			}
 		}
@@ -89,7 +86,7 @@ export default {
 		},
 		//加载树数据
 		async getGroup(){
-			const res = await this.$API.system.role.option();
+			const res = await this.$API.system.role.list();
 			this.groups = res.data;
 		},
 		//表单提交方法
@@ -98,10 +95,10 @@ export default {
 			const validate = await this.$refs.dialogForm.validate().catch(() => {});
 			if(!validate){ return false }
 			// 部门获取最后一项
-			this.form.dept_id = this.$refs.dept.getCheckedNodes()[0].data.dept_id
+			this.form.deptId = this.$refs.dept.getCheckedNodes()[0].data.deptId
 			if (this.form.password) this.form.password = this.$TOOL.crypto.MD5(this.form.password)
 			this.isSaveing = true;
-			const res = this.form.account_id ? await this.$API.setting.account.edit(this.form) : await this.$API.setting.account.add(this.form);
+			const res = this.form.accountId ? await this.$API.system.account.edit(this.form) : await this.$API.system.account.add(this.form);
 			this.isSaveing = false;
 			this.$emit('success')
 			this.visible = false;
@@ -110,7 +107,7 @@ export default {
 		//表单注入数据
 		setData(data){
 			Object.assign(this.form, data)
-			this.form.roles = data.roles.map(item => item.role_id)
+			this.form.roles = data.roles.map(item => item.roleId)
 		},
 		setDeptOption(data) {
 			this.depts = data
