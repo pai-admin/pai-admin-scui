@@ -17,6 +17,7 @@
 								</span>
 								<span class="do">
 									<el-button v-auth="'menu:add'" icon="el-icon-plus" size="small" @click.stop="add(node, data)"></el-button>
+									<el-button v-auth="'menu:del'" icon="el-icon-delete" size="small" @click.stop="del(node, data)"></el-button>
 								</span>
 							</span>
 						</template>
@@ -102,6 +103,18 @@
 				this.$refs.menu.append(newMenuData, node)
 				this.$refs.menu.setCurrentKey(newMenuData.menuId)
 				this.$refs.save.setData(newMenuData)
+			},
+			async del(node, data) {
+				this.menuloading = true
+				var res = await this.$API.system.menu.del({ids: data.menuId})
+				if(node == null){
+					this.reload()
+				}else if (node.isCurrent){
+					this.$refs.save.setData({})
+				}
+				this.$refs.menu.remove(node)
+				this.menuloading = false
+				this.$message.success(res.msg)
 			},
 			//删除菜单
 			async delMenu(){

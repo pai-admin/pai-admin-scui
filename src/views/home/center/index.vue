@@ -4,9 +4,9 @@
 			<el-container>
 				<el-header style="height: auto;display: block;">
 					<div class="user-info-top">
-						<el-avatar :size="70" src="img/avatar.jpg"></el-avatar>
-						<h2>{{ user.userName }}</h2>
-						<p><el-tag effect="dark" round size="large" disable-transitions>{{ user.role }}</el-tag></p>
+						<el-avatar :size="70" :src="account.avatar">{{account.usernameF}}</el-avatar>
+						<h2>{{ account.userName }}</h2>
+						<p><el-tag effect="dark" round size="large" disable-transitions>{{ account.deptName }}</el-tag></p>
 					</div>
 				</el-header>
 				<el-main class="nopadding">
@@ -40,12 +40,12 @@
 	import { defineAsyncComponent } from 'vue'
 
 	export default {
-		name: 'user',
+		name: 'homeCenter',
 		components: {
-			account: defineAsyncComponent(() => import('./components/account')),
-			seting: defineAsyncComponent(() => import('./components/seting')),
-			password: defineAsyncComponent(() => import('./components/password')),
-			logs: defineAsyncComponent(() => import('./components/logs')),
+			account: defineAsyncComponent(() => import('./components/account.vue')),
+			seting: defineAsyncComponent(() => import('./components/seting.vue')),
+			password: defineAsyncComponent(() => import('./components/password.vue')),
+			logs: defineAsyncComponent(() => import('./components/logs.vue')),
 		},
 		data() {
 			return {
@@ -81,9 +81,11 @@
 						]
 					}
 				],
-				user: {
-					userName: "Sakuya",
-					role: "超级管理员",
+				account: {
+					avatar: "",
+					username: "",
+					usernameF: "",
+					deptName: ""
 				},
 				page: "account"
 			}
@@ -101,6 +103,10 @@
 					}).then(() => {}).catch(() => {})
 				}
 			})
+		},
+		mounted() {
+			this.account = this.$TOOL.data.get("USER_INFO")
+			this.account.usernameF = this.account.username.substring(0,1);
 		},
 		methods: {
 			openPage(item){

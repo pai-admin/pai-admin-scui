@@ -14,15 +14,15 @@ export default {
 		return await http.get("auth");
 	},
 	saveAccountInfo: async function(data){
-		return await http.post("change/info", data);
+		return await http.post("info/edit", data);
 	},
 	editPassword: async function(data){
-		return await http.post("change/pwd", data);
+		return await http.post("editPwd", data);
 	},
-	sevenLog: async function(data){
-		return await http.get("log", data);
+	log: async function(data={}){
+		return await http.get("log/my", data);
 	},
 	logout: async function(){
-		return await http.get("logout");
+		return await http.post("logout");
 	}
 }

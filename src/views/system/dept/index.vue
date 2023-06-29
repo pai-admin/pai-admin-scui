@@ -91,7 +91,7 @@ export default {
 		},
 		//删除
 		async table_del(row){
-			const res = await this.$API.system.dept.del({deptId: row.deptId});
+			const res = await this.$API.system.dept.del({ids: row.deptId});
 			this.$refs.table.refresh()
 			this.$message.success(res.msg)
 		},
@@ -101,7 +101,7 @@ export default {
 				type: 'warning'
 			}).then(async () => {
 				const loading = this.$loading();
-				const res = await this.$API.system.dept.del({deptId: this.selection.map(item => item.deptId).toString()});
+				const res = await this.$API.system.dept.del({ids: this.selection.map(item => item.deptId).toString()});
 				this.$refs.table.refresh()
 				loading.close();
 				this.$message.success(res.msg)

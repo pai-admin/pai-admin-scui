@@ -14,7 +14,7 @@
 
 <script>
 	import { defineAsyncComponent } from 'vue';
-	const widgets = defineAsyncComponent(() => import('./widgets'));
+	const widgets = defineAsyncComponent(() => import('./widgets/index.vue'));
 
 	export default {
 		name: "dashboard",

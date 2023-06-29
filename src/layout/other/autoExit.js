@@ -35,8 +35,10 @@ export default {
 		setNewAutoExitTime(){
 			window.autoExitTime = new Date().getTime()
 		},
-		autoExitfun(){
+		async autoExitfun(){
 			if(new Date().getTime() - window.autoExitTime > this.logoutCount * 60 * 1000){
+				await this.$TOOL.go(this.$API.auth.logout())
+				this.$TOOL.data.clear()
 				clearInterval(window.autoExitTimer)
 				window.autoExitTimer = null
 				this.$router.replace({path: '/login'})

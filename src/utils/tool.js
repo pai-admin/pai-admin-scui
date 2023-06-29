@@ -246,4 +246,21 @@ tool.makeTreeData = function (data, parentId = 0, key = "id") {
 	}
 	return arr
 }
+
+tool.browser = function (ua) {
+	if (ua.indexOf("Firefox") > -1) {
+		return "Mozilla Firefox";
+	} else if (ua.indexOf("Edge") > -1) {
+		return "Microsoft Edge";
+	} else if (ua.indexOf("Opera") > -1 || ua.indexOf("OPR") > -1) {
+		return "Opera";
+	} else if (ua.indexOf("Chrome") > -1) {
+		return "Google Chrome or Chromium";
+	} else if (ua.indexOf("Safari") > -1) {
+		return "Apple Safari";
+	} else if (ua.indexOf("MSIE") > -1 || ua.indexOf("Trident") > -1) {
+		return "Microsoft Internet Explorer";
+	}
+	return "unknown"
+}
 export default tool

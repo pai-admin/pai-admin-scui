@@ -94,13 +94,12 @@ export default {
 		},
 	},
 	log: {
-		list: {
-			url: `${config.API_URL}/system/log/list`,
-			name: "日志列表",
-			get: async function(params){
-				return await http.get(this.url, params);
-			}
-		}
+		list: async function(data={}){
+			return await http.get("log/list", data);
+		},
+		del: async function(data={}){
+			return await http.delete("log/del", data);
+		},
 	},
 	table: {
 		list: {

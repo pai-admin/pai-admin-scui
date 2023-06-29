@@ -39,7 +39,7 @@
 						</el-scrollbar>
 					</el-main>
 					<el-footer>
-						<el-button type="primary">消息中心</el-button>
+						<el-button type="primary" @click="handleUser('msg')">消息中心</el-button>
 						<el-button @click="markRead">全部设为已读</el-button>
 					</el-footer>
 				</el-container>
@@ -92,29 +92,11 @@
 					{
 						id: 1,
 						type: 'user',
-						avatar: "img/avatar.jpg",
-						title: "Skuya",
+						avatar: "img/avatar.png",
+						title: "PaiAdmin",
 						describe: "如果喜欢就点个星星支持一下哦",
-						link: "https://gitee.com/lolicode/scui",
+						link: "https://github.com/pai-admin/pai-admin-scui",
 						time: "5分钟前"
-					},
-					{
-						id: 2,
-						type: 'user',
-						avatar: "img/avatar2.gif",
-						title: "Lolowan",
-						describe: "点进去Gitee获取最新开源版本",
-						link: "https://gitee.com/lolicode/scui",
-						time: "14分钟前"
-					},
-					{
-						id: 3,
-						type: 'system',
-						avatar: "img/logo.png",
-						title: "感谢登录SCUI Admin",
-						describe: "Vue 3.0 + Vue-Router 4.0 + ElementPlus + Axios 后台管理系统。",
-						link: "https://gitee.com/lolicode/scui",
-						time: "2020年7月24日"
 					}
 				]
 			}
@@ -128,24 +110,24 @@
 			//个人信息
 			handleUser(command) {
 				if(command == "uc"){
-					this.$router.push({path: '/usercenter'});
+					this.$router.push({path: '/home/center'});
 				}
-				if(command == "cmd"){
-					this.$router.push({path: '/cmd'});
+				if(command == "msg"){
+					this.$router.push({path: '/home/message'});
 				}
 				if(command == "clearCache"){
 					this.$confirm('清除缓存会将系统初始化，包括登录状态、主题、语言设置等，是否继续？','提示', {
 						type: 'info',
-					}).then(() => {
+					}).then(async () => {
 						const loading = this.$loading()
 						this.$TOOL.data.clear()
-						this.$router.replace({path: '/login'})
-						setTimeout(()=>{
+						const [res, err] = await this.$TOOL.go(this.$API.auth.logout())
+						if (!err) {
 							loading.close()
 							location.reload()
-						},1000)
-					}).catch(() => {
-						//取消
+							this.$message.success(res.msg)
+							this.$router.replace({path: '/login'});
+						}
 					})
 				}
 				if(command == "outLogin"){
@@ -153,10 +135,12 @@
 						type: 'warning',
 						confirmButtonText: '退出',
 						confirmButtonClass: 'el-button--danger'
-					}).then(() => {
-						this.$router.replace({path: '/login'});
-					}).catch(() => {
-						//取消退出
+					}).then(async () => {
+						const [res, err] = await this.$TOOL.go(this.$API.auth.logout())
+						if (!err) {
+							this.$message.success(res.msg)
+							this.$router.replace({path: '/login'});
+						}
 					})
 				}
 			},

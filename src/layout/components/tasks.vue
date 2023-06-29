@@ -51,8 +51,17 @@
 		methods: {
 			async getData(){
 				this.loading = true
-				var res = await this.$API.system.tasks.list.get()
-				this.tasks = res.data
+				this.tasks = [
+					{
+						"id": "100",
+						"taskName": "收银明细报表导出",
+						"type": "report",
+						"result": "",
+						"state": "0",
+						"stateName": "执行中",
+						"createDate": "2023-04-01 14:04:06"
+					}
+				]
 				this.loading = false
 			},
 			refresh(){
