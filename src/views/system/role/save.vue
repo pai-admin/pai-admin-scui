@@ -6,7 +6,7 @@
 			</el-form-item>
 			<el-form-item label="权限" prop="alias">
 				<el-tree style="width: 100%;" ref="menu" node-key="menuId" :data="menu.list" :default-checked-keys="menu.checked"
-						 :props="menu.props" show-checkbox></el-tree>
+						 :props="menu.props" show-checkbox check-strictly></el-tree>
 			</el-form-item>
 			<el-form-item label="标识" prop="flag">
 				<el-input v-model="form.flag" clearable></el-input>

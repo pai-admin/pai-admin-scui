@@ -1,6 +1,6 @@
 {
-	"name": "paiadmin",
-	"version": "1.0.0",
+	"name": "pai-admin-scui",
+	"version": "1.0.1",
 	"private": true,
 	"scripts": {
 		"serve": "vue-cli-service serve",

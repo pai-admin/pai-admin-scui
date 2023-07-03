@@ -59,13 +59,13 @@ const DEFAULT_CONFIG = {
 
 	//控制台首页默认布局
 	DEFAULT_GRID: {
-		//默认分栏数量和宽度 例如 [24] [18,6] [8,8,8] [6,12,6]
-		layout: [12, 6, 6],
-		//小组件分布，com取值:views/home/components 文件名
+		//默认分栏数量和宽度 例如 [24] [18,6] [8,8,8] [6,12,6] [24, 12, 6, 6]
+		layout: [24, 12, 6, 6],
 		copmsList: [
-			['welcome'],
-			['about', 'ver'],
-			['time', 'progress']
+			['welcome','trade'],
+			['trend'],
+			['distribute'],
+			['ranking']
 		]
 	}
 }

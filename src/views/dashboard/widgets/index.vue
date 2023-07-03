@@ -62,6 +62,14 @@
 								<el-col :span="24"><span></span></el-col>
 							</el-row>
 						</div>
+						<div class="selectLayout-item item03" :class="{active:grid.layout.join(',')=='24,12,6,6'}" @click="setLayout([24, 12, 6, 6])">
+							<el-row :gutter="2">
+								<el-col :span="24"><span></span></el-col>
+								<el-col :span="12"><span></span></el-col>
+								<el-col :span="6"><span></span></el-col>
+								<el-col :span="6"><span></span></el-col>
+							</el-row>
+						</div>
 					</div>
 				</el-header>
 				<el-main class="nopadding">
@@ -133,8 +141,8 @@
 				return allCompsList
 			},
 			myCompsList(){
-				var myGrid = this.$TOOL.data.get("DASHBOARDGRID")
-				return this.allCompsList.filter(item => !item.disabled && myGrid.includes(item.key))
+				// 组件暂不设置权限
+				return this.allCompsList.filter(item => !item.disabled)
 			},
 			nowCompsList(){
 				return this.grid.copmsList.reduce(function(a, b){return a.concat(b)})

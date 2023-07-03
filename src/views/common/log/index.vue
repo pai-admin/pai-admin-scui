@@ -4,7 +4,7 @@
 			<el-container>
 				<el-header>
 					<div class="left-panel">
-						<el-button v-auth="'system:log:del'" type="danger" plain icon="el-icon-delete" :disabled="selection.length===0" @click="batch_del"></el-button>
+						<el-button v-auth="'log:del'" type="danger" plain icon="el-icon-delete" :disabled="selection.length===0" @click="batch_del"></el-button>
 					</div>
 					<div class="right-panel">
 						<div class="right-panel-search">
