@@ -249,17 +249,17 @@ tool.makeTreeData = function (data, parentId = 0, key = "id") {
 
 tool.browser = function (ua) {
 	if (ua.indexOf("Firefox") > -1) {
-		return "Mozilla Firefox";
+		return "火狐浏览器";
 	} else if (ua.indexOf("Edge") > -1) {
 		return "Microsoft Edge";
 	} else if (ua.indexOf("Opera") > -1 || ua.indexOf("OPR") > -1) {
 		return "Opera";
 	} else if (ua.indexOf("Chrome") > -1) {
-		return "Google Chrome or Chromium";
+		return "谷歌浏览器";
 	} else if (ua.indexOf("Safari") > -1) {
-		return "Apple Safari";
+		return "Safari浏览器";
 	} else if (ua.indexOf("MSIE") > -1 || ua.indexOf("Trident") > -1) {
-		return "Microsoft Internet Explorer";
+		return "IE浏览器";
 	}
 	return "unknown"
 }

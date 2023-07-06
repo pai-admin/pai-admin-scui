@@ -1,12 +1,12 @@
 <template>
 	<el-form ref="loginForm" :model="form" :rules="rules" label-width="0" size="large">
-		<el-form-item prop="user">
+		<el-form-item prop="username">
 			<el-input v-model="form.username" prefix-icon="el-icon-user" clearable :placeholder="$t('login.userPlaceholder')"></el-input>
 		</el-form-item>
 		<el-form-item prop="password">
 			<el-input v-model="form.password" prefix-icon="el-icon-lock" clearable show-password :placeholder="$t('login.PWPlaceholder')"></el-input>
 		</el-form-item>
-		<el-form-item prop="veryCode">
+		<el-form-item prop="verifyCode">
 			<el-input v-model="form.verifyCode" prefix-icon="el-icon-iphone" clearable :placeholder="$t('login.codePlaceholder')">
 				<template #append>
 					<el-image :src="verImage" @click="getCode" style="padding: 1px;"/>
