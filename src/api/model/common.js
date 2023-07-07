@@ -2,7 +2,7 @@ import http from "@/utils/request"
 
 export default {
 	upload: async function(data, config={}){
-		return await http.put("upload/file", data, config);
+		return await http.post("upload/file", data, config);
 	},
 	dict_type: {
 		list: async function(data={}){
