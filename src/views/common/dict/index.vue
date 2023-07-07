@@ -15,10 +15,8 @@
 								<span class="code">{{ data.flag }}</span>
 								<span class="do">
 									<el-button-group>
-										<el-button icon="el-icon-edit" size="small"
-												   @click.stop="dicEdit(data)"></el-button>
-										<el-button icon="el-icon-delete" size="small"
-												   @click.stop="dicDel(node, data)"></el-button>
+										<el-button v-auth="'dict_type:add'" icon="el-icon-edit" size="small" @click.stop="dicEdit(data)"></el-button>
+										<el-button v-auth="'dict_type:del'" icon="el-icon-delete" size="small" @click.stop="dicDel(node, data)"></el-button>
 									</el-button-group>
 								</span>
 							</span>
@@ -26,7 +24,7 @@
 					</el-tree>
 				</el-main>
 				<el-footer style="height:51px;">
-					<el-button type="primary" size="small" icon="el-icon-plus" style="width: 100%;" @click="addDic">
+					<el-button v-auth="'dict_type:add'" type="primary" size="small" icon="el-icon-plus" style="width: 100%;" @click="addDic">
 						字典分类
 					</el-button>
 				</el-footer>
@@ -35,8 +33,8 @@
 		<el-container class="is-vertical">
 			<el-header>
 				<div class="left-panel">
-					<el-button type="primary" icon="el-icon-plus" @click="addInfo"></el-button>
-					<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0"
+					<el-button v-auth="'dict_data:add'" type="primary" icon="el-icon-plus" @click="addInfo"></el-button>
+					<el-button v-auth="'dict_data:del'" type="danger" plain icon="el-icon-delete" :disabled="selection.length==0"
 							   @click="batch_del"></el-button>
 				</div>
 			</el-header>
@@ -55,12 +53,12 @@
 					<el-table-column label="操作" fixed="right" align="right" width="120">
 						<template #default="scope">
 							<el-button-group>
-								<el-button text type="primary" size="small"
+								<el-button text type="primary" size="small" v-auth="'dict_data:edit'"
 										   @click="table_edit(scope.row, scope.$index)">编辑
 								</el-button>
 								<el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
 									<template #reference>
-										<el-button text type="primary" size="small">删除</el-button>
+										<el-button v-auth="'dict_data:del'" text type="primary" size="small">删除</el-button>
 									</template>
 								</el-popconfirm>
 							</el-button-group>
